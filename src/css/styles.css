@@ -1,9 +1,24 @@
-body {
-  background-color: teal;
+* {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  color: white;
+  color: #5c1c2c;
+}
+
+body {
+  background-color: #70425a;
 }
 
 h1 {
-  font-size: 4vh; 
+  font-size: 8vh;
+}
+
+nav {
+  background: linear-gradient(0.30turn, #ab4e52, #a76671, #e0b8ba, #70425a);
+  height: 100 px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  display: flex;
 }
