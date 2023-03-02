@@ -21,4 +21,27 @@ nav {
 
 header {
   display: flex;
+  align-items: flex-start;
+  flex-direction: row-reverse;
 }
+
+.booking-section {
+  background-color: #e0b8ba;
+  padding: 45px;
+  height: 6vh;
+  width: 4vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+}
+
+.left-bar {
+  background-color: #e0b8ba;
+
+ 
+}
+
+/* .nav-buttons:hover {
+  color: #994470;
+  cursor: pointer;
+} */
