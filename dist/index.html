@@ -9,17 +9,25 @@
 <body>
   <nav>
     <header>
+      <div class="nav-buttons">
+        <button class="home-btn">Home</button>
+        <button class="search-btn">Search</button>
+        <button class="bookings-btn">Bookings</button>
+      </div>
       <h1>Bea's Cozy Abode</h1>
     </header>
-    <div class="buttons">
-      <button>Home</button>
-      <button>Search</button>
-      <button>Bookings</button>
-    </div>
-    <label for="start">Start date:</label>
-      <input type="date" id="start" name="trip-start" value="2023-03-01" min="2023-01-01" max="2024-12-31">
-    </label>
   </nav>
+  <section class="booking-section">
+    <aside class="left-bar">
+      <label for="start">Check-in:</label>
+        <input type="date" id="start" name="trip-start" value="2023-03-01" min="2023-01-01" max="2024-12-31">
+      </label>
+      <label for="end">Check-out:</label>
+        <input type="date" id="end" name="trip-end" value="2023-03-02" min="2023-01-01" max="2024-12-31">
+      </label>
+      <button>Search</button>
+    </aside>
+  </section>
   <main>
   </main>
   <script src="bundle.js"></script>
