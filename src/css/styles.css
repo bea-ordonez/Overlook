@@ -7,6 +7,10 @@ body {
   background-color: #70425a;
 }
 
+main {
+  height: 100vh;
+}
+
 h1 {
   font-size: 8vh;
 }
@@ -25,20 +29,29 @@ header {
   flex-direction: row-reverse;
 }
 
-.booking-section {
+.booking-page {
   background-color: #e0b8ba;
-  padding: 45px;
-  height: 6vh;
-  width: 4vw;
+  padding: 25px;
+  height: 100%;
+  width: 100%;
   display: flex;
-  align-items: center;
-  flex-direction: column-reverse;
 }
 
-.left-bar {
-  background-color: #e0b8ba;
+.left-square {
+  background-color: white;
+  height: 200px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
 
- 
+.dashboard-view {
+  background-color: bisque;
+  height: 200px;
+  width: 200px;
+  display: flex;
 }
 
 /* .nav-buttons:hover {
