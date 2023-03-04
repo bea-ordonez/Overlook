@@ -24,8 +24,10 @@ import roomData from '../data/roomData.js'
 const customerName = document.querySelector('#customerName');
 const totalSpending = document.querySelector('#totalSpending');
 const customerBookingsSection = document.querySelector('#customerBookings');
+const availableRoomsSection = document.querySelector('#availableRooms');
 const searchBtn = document.querySelector('#searchButton');
-const reservation = document.querySelector('#reservation')
+const dateSelector = document.querySelector('#selectDate')
+const roomTypeSelector = document.querySelector('#roomType')
 
 
 // GLOBAL Variables
@@ -90,12 +92,34 @@ function displayBooking(booking, room) {
    </div>`
 }
 
+function displayAvailableRoom(room) {
+  availableRoomsSection.innerHTML += `
+    <div class="past-booking-info">
+      <p>Room Info:</p>
+      <p>Room Number: ${room.number}</p>
+      <p>Room Type: ${room.roomType}</p>
+      <p>Bidet:${room.bidet}</p>
+      <p>Bed Size:${room.bedSize}</p>
+      <p>Number of Beds:${room.numBeds}</p>
+      <p>Total Cost: ${room.costPerNight}</p>
+  </div>`
+}
+
 function showAvailableRooms() {
-  const selectedDate = reservation.value.replace(/-/g,'/')
+  const selectedDate = dateSelector.value.replace(/-/g,'/')
+  const selectedRoomType = roomTypeSelector.value;
   //regular expression, looking for a certain pattern (/-/g) replacing - with / 
-  const availableRooms = allRooms.filter(room => isRoomAvailable(room.number, selectedDate));
+  const availableRooms = allRooms.filter(room => isRoomAvailable(room.number, selectedDate) && (selectedRoomType === room.roomType || selectedRoomType === "all room types") );
+  availableRoomsSection.innerHTML = '';
+  availableRooms.forEach( room => {
+    displayAvailableRoom(room);
+  })
 }
 //itrate thru bookings array and filter matching date and room number 
+
+function makeNewBooking() {
+  
+}
 
 function isRoomAvailable(roomNum, date) {
   const bookingResult = allBookings.find(booking => booking.roomNumber === roomNum && booking.date === date)
