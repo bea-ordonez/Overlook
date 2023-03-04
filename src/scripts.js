@@ -25,23 +25,52 @@ const customerName = document.querySelector('#customerName')
 const totalSpending = document.querySelector('#totalSpending')
 const customerBookingsSection = document.querySelector('#customerBookings')
 
-//Promise
-
 
 
 // GLOBAL Variables
 let currentCustomer;
+const allRooms = [];
+const allBookings = [];
+const allCustomers = [];
+
 
 // Event Listeners
 
 
-window.addEventListener('load', displayDashboard)
+window.addEventListener('load', () => {
+  updateGlobalData()
+  .then(pickRandomCustomer)
+  .then(displayDashboard);
+});
 
 // Functions 
 
-// function show() {
+//returns a promise, so need to use then when in use
+function updateGlobalData() {
+  return api.getAllRooms().then(rooms => {
+    allRooms = rooms
+  }).then(() => {
+    api.getAllBookings().then(bookings => {
+      allBookings = bookings
+    }).then(() => {
+      api.getAllCustomers().then(customers => {
+        allCustomers = customers
+      })
+    })
+  })
+}
 
-// };
+function pickRandomCustomer() {
+  let randomIndex = Math.floor(Math.random() * allCustomers.length);
+  currentCustomer = allCustomers[randomIndex];
+}
+
+function displayDashboard() {
+  // clear dishboard
+  // draw dashboard cards for current user's bookings
+}
+
+
 
 function clearBookingDisplay() {
   customerBookingsSection.innerHTML = '';
