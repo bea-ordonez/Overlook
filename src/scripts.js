@@ -2,7 +2,7 @@
 // An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import fetchData from './apiCalls.js'
+import api from './apiCalls.js'
 import Booking from './Booking.js'
 import Customer from './Customer.js'
 import Room from './Room.js'
@@ -10,22 +10,32 @@ import bookingData from '../data/bookingData.js'
 import cutomerData from '../data/customerData.js'
 import roomData from '../data/roomData.js'
 
+
+//let allRooms = []
+//api.getAllRooms().then(rooms => allRooms = rooms) //returns an array of rooms
+
+//api.getCustomerById(1).then(customer => console.log(customer)) //returns an obj of customer
+//api.getAllCustomers().then(customers => console.log(customers)) //returns array of customers
+//console.log("next line")
+
+
+
 // DOM Variables
-const homeBtn = document.querySelector('.home-btn');
-const searchBtn = document.querySelector('.search-btn');
-const bookingsBtn = document.querySelector('.bookings-btn')
-const dashboardView = document.querySelector('.dashboard-view')
+const customerName = document.querySelector('#customerName')
+const totalSpending = document.querySelector('#totalSpending')
+const customerBookingsSection = document.querySelector('#customerBookings')
 
 //Promise
 
 
 
 // GLOBAL Variables
-const booking = new Booking(bookingData[0])
-const room = new Room(roomData[0])
+let currentCustomer;
 
 // Event Listeners
-showPastBookings()
+
+
+window.addEventListener('load', displayDashboard)
 
 // Functions 
 
@@ -33,8 +43,12 @@ showPastBookings()
 
 // };
 
-function showPastBookings() {
-  dashboardView.innerHTML += `
+function clearBookingDisplay() {
+  customerBookingsSection.innerHTML = '';
+}
+
+function showBooking(booking, room) {
+  customerBookingsSection.innerHTML += `
     <div class="past-booking-info">
       <p>Booking Info</p>
       <p>Room Number: ${booking.roomNumber}</p>
@@ -43,4 +57,34 @@ function showPastBookings() {
       <p>Date: ${booking.date}</p>
    </div>`
 }
+
+function generateRandomCustomer(customerArray) {
+  let randomIndex = Math.floor(Math.random() * customerArray.length);
+  return customerArray[randomIndex];
+}
+
+// function updateCustomerSpending() {
+//   totalSpending.innerHTML = `${}`
+// }
+
+function displayDashboard() {
+  api.getAllRooms().then(rooms => {
+    api.getAllCustomers().then(customers => {
+      const customer = generateRandomCustomer(customers);
+      customerName.innerHTML = `${customer.name}`;
+      api.getAllBookings().then(bookings => {
+        const customerBookings = bookings.filter(booking => {
+          return booking.userID === customer.id
+        });
+        clearBookingDisplay();
+        customerBookings.forEach(booking => {
+          const bookedRoom = rooms.find(room => room.number === booking.roomNumber)
+          showBooking(booking, bookedRoom)
+        })
+      }) 
+    })
+  })
+}
+
+
 
