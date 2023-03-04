@@ -12,7 +12,7 @@ main {
 }
 
 h1 {
-  font-size: 8vh;
+  font-size: 4vh;
 }
 
 nav {
@@ -20,7 +20,7 @@ nav {
   height: 100 px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: space-evenly;
 }
 
 header {
@@ -29,7 +29,7 @@ header {
   flex-direction: row-reverse;
 }
 
-.booking-page {
+.dashboard {
   background-color: #e0b8ba;
   padding: 25px;
   height: 100%;
@@ -37,7 +37,7 @@ header {
   display: flex;
 }
 
-.left-square {
+.calendar-search {
   background-color: white;
   height: 200px;
   width: 200px;
@@ -47,14 +47,9 @@ header {
   justify-content: center;
 }
 
-.dashboard-view {
+.customer-bookings {
   background-color: bisque;
   height: 200px;
   width: 200px;
   display: flex;
 }
-
-/* .nav-buttons:hover {
-  color: #994470;
-  cursor: pointer;
-} */

@@ -1,6 +1,6 @@
 class Customer {
   constructor(customerData) {
-    this.id = customerData.Id;
+    this.id = customerData.id;
     this.name = customerData.name;
   }
 }

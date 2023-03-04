@@ -9,28 +9,22 @@
 <body>
   <nav>
     <header>
-      <div class="nav-buttons">
-        <button class="home-btn">Home</button>
-        <button class="search-btn">Search</button>
-        <button class="bookings-btn">Bookings</button>
-      </div>
-      <h1>Bea's Cozy Abode</h1>
+      <h1>Hotel Holly</h1>
+      <h3>Welcome <span id="customerName"></span> to</h3>
     </header>
   </nav>
   <main>
     <section class="login-page">
     </section>
-    <section class="booking-page">
-      <aside class="left-square">
+    <section class="dashboard">
+      <aside class="calendar-search">
         <label for="start">Check-in:</label>
           <input type="date" id="start" name="trip-start" value="2023-03-01" min="2023-01-01" max="2024-12-31">
         </label>
-        <label for="end">Check-out:</label>
-          <input type="date" id="end" name="trip-end" value="2023-03-02" min="2023-01-01" max="2024-12-31">
-        </label>
         <button>Search</button>
+        <h4>Lifetime Spending at Hotel Holly:<span id="totalSpending"></span></h4>
       </aside>
-      <section class="dashboard-view">
+      <section id="customerBookings" class="customer-bookings">
         <!-- <div class="past-booking-info">
           <p>Booking Info</p>
           <p>Room Number</p>
@@ -38,6 +32,7 @@
           <p>Room Cost</p>
           <p>Stay Date</p>
         </div> -->
+        <!-- <p>You have spent a total of </p> -->
       </section>
     </section>
   </main>
