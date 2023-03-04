@@ -21,17 +21,18 @@ import roomData from '../data/roomData.js'
 
 
 // DOM Variables
-const customerName = document.querySelector('#customerName')
-const totalSpending = document.querySelector('#totalSpending')
-const customerBookingsSection = document.querySelector('#customerBookings')
-
+const customerName = document.querySelector('#customerName');
+const totalSpending = document.querySelector('#totalSpending');
+const customerBookingsSection = document.querySelector('#customerBookings');
+const searchBtn = document.querySelector('#searchButton');
+const reservation = document.querySelector('#reservation')
 
 
 // GLOBAL Variables
 let currentCustomer;
-const allRooms = [];
-const allBookings = [];
-const allCustomers = [];
+let allRooms = [];
+let allBookings = [];
+let allCustomers = [];
 
 
 // Event Listeners
@@ -42,6 +43,7 @@ window.addEventListener('load', () => {
   .then(pickRandomCustomer)
   .then(displayDashboard);
 });
+searchBtn.addEventListener('click', showAvailableRooms);
 
 // Functions 
 
@@ -49,11 +51,9 @@ window.addEventListener('load', () => {
 function updateGlobalData() {
   return api.getAllRooms().then(rooms => {
     allRooms = rooms
-  }).then(() => {
-    api.getAllBookings().then(bookings => {
+    return api.getAllBookings().then(bookings => {
       allBookings = bookings
-    }).then(() => {
-      api.getAllCustomers().then(customers => {
+      return api.getAllCustomers().then(customers => {
         allCustomers = customers
       })
     })
@@ -66,17 +66,20 @@ function pickRandomCustomer() {
 }
 
 function displayDashboard() {
-  // clear dishboard
-  // draw dashboard cards for current user's bookings
-}
-
-
-
-function clearBookingDisplay() {
+  displayCustomerName();
   customerBookingsSection.innerHTML = '';
+  // draw dashboard cards for current user's bookings
+  const customerBookings = allBookings.filter(booking => booking.userID === currentCustomer.id);
+  let totalSpent = 0;
+  customerBookings.forEach(booking => {
+    const bookedRoom = allRooms.find(room => room.number === booking.roomNumber)
+    totalSpent += bookedRoom.costPerNight;
+    displayBooking(booking, bookedRoom);
+  });
+  displayCustomerSpending(totalSpent);
 }
 
-function showBooking(booking, room) {
+function displayBooking(booking, room) {
   customerBookingsSection.innerHTML += `
     <div class="past-booking-info">
       <p>Booking Info</p>
@@ -87,38 +90,24 @@ function showBooking(booking, room) {
    </div>`
 }
 
-function updateCustomerSpending(amount) {
+function showAvailableRooms() {
+  const selectedDate = reservation.value.replace(/-/g,'/')
+  //regular expression, looking for a certain pattern (/-/g) replacing - with / 
+  const availableRooms = allRooms.filter(room => isRoomAvailable(room.number, selectedDate));
+}
+//itrate thru bookings array and filter matching date and room number 
+
+function isRoomAvailable(roomNum, date) {
+  const bookingResult = allBookings.find(booking => booking.roomNumber === roomNum && booking.date === date)
+  return !bookingResult
+}
+//if booking result meets criteria return false otherwise return true
+
+function displayCustomerName() {
+  customerName.innerHTML = `${currentCustomer.name}`;
+}
+
+function displayCustomerSpending(amount) {
   totalSpending.innerHTML = `$${amount}`;
 }
-
-function generateRandomCustomer(customerArray) {
-  let randomIndex = Math.floor(Math.random() * customerArray.length);
-  return customerArray[randomIndex];
-}
-
-
-
-function displayDashboard() {
-  let totalSpent = 0
-  api.getAllRooms().then(rooms => {
-    api.getAllCustomers().then(customers => {
-      const customer = generateRandomCustomer(customers);
-      customerName.innerHTML = `${customer.name}`;
-      api.getAllBookings().then(bookings => {
-        const customerBookings = bookings.filter(booking => {
-          return booking.userID === customer.id
-        });
-        clearBookingDisplay();
-        customerBookings.forEach(booking => {
-          const bookedRoom = rooms.find(room => room.number === booking.roomNumber)
-          totalSpent += bookedRoom.costPerNight;
-          showBooking(booking, bookedRoom)
-        })
-        updateCustomerSpending(totalSpent);
-      }) 
-    })
-  })
-}
-
-
 
