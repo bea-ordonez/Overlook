@@ -58,16 +58,19 @@ function showBooking(booking, room) {
    </div>`
 }
 
+function updateCustomerSpending(amount) {
+  totalSpending.innerHTML = `$${amount}`;
+}
+
 function generateRandomCustomer(customerArray) {
   let randomIndex = Math.floor(Math.random() * customerArray.length);
   return customerArray[randomIndex];
 }
 
-// function updateCustomerSpending() {
-//   totalSpending.innerHTML = `${}`
-// }
+
 
 function displayDashboard() {
+  let totalSpent = 0
   api.getAllRooms().then(rooms => {
     api.getAllCustomers().then(customers => {
       const customer = generateRandomCustomer(customers);
@@ -79,8 +82,10 @@ function displayDashboard() {
         clearBookingDisplay();
         customerBookings.forEach(booking => {
           const bookedRoom = rooms.find(room => room.number === booking.roomNumber)
+          totalSpent += bookedRoom.costPerNight;
           showBooking(booking, bookedRoom)
         })
+        updateCustomerSpending(totalSpent);
       }) 
     })
   })
