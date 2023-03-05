@@ -32,6 +32,7 @@ const roomTypeSelector = document.querySelector('#roomType')
 
 // GLOBAL Variables
 let currentCustomer;
+let selectedDate;
 let allRooms = [];
 let allBookings = [];
 let allCustomers = [];
@@ -46,6 +47,8 @@ window.addEventListener('load', () => {
   .then(displayDashboard);
 });
 searchBtn.addEventListener('click', showAvailableRooms);
+
+availableRoomsSection.addEventListener('click', makeNewBooking);
 
 // Functions 
 
@@ -102,24 +105,48 @@ function displayAvailableRoom(room) {
       <p>Bed Size: ${room.bedSize}</p>
       <p>Number of Beds: ${room.numBeds}</p>
       <p>Total Cost: ${room.costPerNight}</p>
-      <button id ="${room.number}">Book</button>
-  </div>`
+      <button id="book-${room.number}">Book</button>
+    </div>`
+
+  
+}
+
+function displayNoAvailableRoom() {
+  availableRoomsSection.innerHTML += `
+    <div class="card">
+      <p>Sorry! There are no available rooms.</p>
+    </div>`
 }
 
 function showAvailableRooms() {
-  const selectedDate = dateSelector.value.replace(/-/g,'/')
+  selectedDate = dateSelector.value.replace(/-/g,'/')
   const selectedRoomType = roomTypeSelector.value;
   //regular expression, looking for a certain pattern (/-/g) replacing - with / 
   const availableRooms = allRooms.filter(room => isRoomAvailable(room.number, selectedDate) && (selectedRoomType === room.roomType || selectedRoomType === "all room types") );
   availableRoomsSection.innerHTML = '';
+  if (availableRooms.length === 0) {
+    displayNoAvailableRoom();
+  }
   availableRooms.forEach( room => {
     displayAvailableRoom(room);
   })
 }
 //itrate thru bookings array and filter matching date and room number 
 
-function makeNewBooking() {
-  
+function makeNewBooking(event) {
+  if (event.target.id) { //if id is truthy
+    if (event.target.id.substring(0,5) == "book-") { //if left part of id is 'book-'
+      const roomNum = event.target.id.substring(5) //extract room number
+      
+      const newBooking = {
+        userID: currentCustomer.id,
+        date: selectedDate,
+        roomNumber: parseInt(roomNum)
+      };
+
+      api.addNewBooking(newBooking).then(updateGlobalData).then(showAvailableRooms).then(displayDashboard);
+    }
+  }
 }
 
 function isRoomAvailable(roomNum, date) {
