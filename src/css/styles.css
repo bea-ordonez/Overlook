@@ -58,7 +58,9 @@ header {
 }
 
 
-
+.hidden {
+  display: none !important;
+}
 
 .flex-column {
   display: flex;

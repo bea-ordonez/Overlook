@@ -26,8 +26,13 @@ const totalSpending = document.querySelector('#totalSpending');
 const customerBookingsSection = document.querySelector('#bookingCards');
 const availableRoomsSection = document.querySelector('#availableRooms');
 const searchBtn = document.querySelector('#searchButton');
-const dateSelector = document.querySelector('#selectDate')
-const roomTypeSelector = document.querySelector('#roomType')
+const loginBtn = document.querySelector('#loginButton');
+const userNameBox = document.querySelector('#userName')
+const passWordBox = document.querySelector('#passWord')
+const dateSelector = document.querySelector('#selectDate');
+const roomTypeSelector = document.querySelector('#roomType');
+const loggedOutView = document.querySelector('#loggedOutView');
+const loggedInView = document.querySelector('#loggedInView');
 
 
 // GLOBAL Variables
@@ -49,6 +54,8 @@ window.addEventListener('load', () => {
 searchBtn.addEventListener('click', showAvailableRooms);
 
 availableRoomsSection.addEventListener('click', makeNewBooking);
+
+loginBtn.addEventListener('click', logIn)
 
 // Functions 
 
@@ -84,6 +91,14 @@ function displayDashboard() {
   displayCustomerSpending(totalSpent);
 }
 
+function show(element) {
+  element.classList.remove('hidden');
+}
+
+function hide(element) {
+  element.classList.add('hidden');
+}
+
 function displayBooking(booking, room) {
   customerBookingsSection.innerHTML += `
     <div class="card">
@@ -107,8 +122,18 @@ function displayAvailableRoom(room) {
       <p>Total Cost: ${room.costPerNight}</p>
       <button id="book-${room.number}">Book</button>
     </div>`
+}
 
-  
+function logIn() {
+  const username = userNameBox.value;
+  const password = passWordBox.value;
+  if (username === 'customer50' && password === 'overlook2021') {
+    currentCustomer = allCustomers.find(customer => customer.id === 50)
+  }
+
+  displayDashboard();
+  hide(loggedOutView)
+  show(loggedInView)
 }
 
 function displayNoAvailableRoom() {
