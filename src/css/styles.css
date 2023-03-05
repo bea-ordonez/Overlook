@@ -11,8 +11,9 @@ main {
   height: 100vh;
 }
 
-h1 {
-  font-size: 4vh;
+p {
+  color: white;
+  font-size: 14px;
 }
 
 nav {
@@ -38,18 +39,49 @@ header {
 }
 
 .calendar-search {
-  background-color: white;
-  height: 200px;
-  width: 200px;
+  background-color: #a76671;
+  height: 16vh;
+  width: 17vw;
+  border-radius: 5em;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
 }
 
-.customer-bookings {
-  background-color: bisque;
-  height: 200px;
-  width: 200px;
+.customer-bookings-section {
   display: flex;
+  flex-wrap: wrap;
+}
+
+.customer-bookings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 16vh;
+  width: 16vw;
+  margin: 5px;
+  border-radius: .5em;
+  background-color: #a76671;
+}
+
+.available-room-display {
+  display: flex;
+}
+.available-rooms {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  height: 16vh;
+  width: 16vw;
+  margin: 5px;
+  border-radius: 0.5em;
+  background-color: #3682a0;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.hidden {
+  display: none;
 }
