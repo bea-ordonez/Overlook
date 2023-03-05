@@ -11,6 +11,7 @@
     <header>
       <h1>Hotel Holly</h1>
       <h3>Welcome <span id="customerName"></span> to</h3>
+      <p>Your Lifetime Spending at Hotel Holly is:<span id="totalSpending"></span></p>
     </header>
   </nav>
   <main>
@@ -18,10 +19,10 @@
     </section>
     <section class="dashboard">
       <aside class="calendar-search">
-        <label for="start">Select Date:</label>
+        <label for="start"><p>Select Date:</p></label>
           <input type="date" id="selectDate" name="trip-start" value="2023-03-01" min="2022-01-01" max="2024-12-31">
         </label>
-        <label for="roomType">Select Room Type:</label>
+        <label for="roomType"><p>Select Room Type:</p></label>
         <select name="roomType" id="roomType">
           <option value="all room types">All</option>
           <option value="residential suite">Residential Suite</option>
@@ -30,11 +31,16 @@
           <option value="single room">Single Room</option>
         </select>
         <button id="searchButton">Search</button>
-        <h4>Lifetime Spending at Hotel Holly:<span id="totalSpending"></span></h4>
       </aside>
-      <section id="customerBookings" class="customer-bookings">
+      <section class="booking-display">
+        <section id="bookingCards" class="customer-bookings-section">
+            <!-- past/upcoming bookings go here -->
+        </section>
       </section>
-      <section id="availableRooms" class="available-rooms">
+      <section class="available-room-display">
+        <section id="availableRooms" class="available-rooms">
+          <!-- available room cards here -->
+        </section>
       </section>
     </section>
   </main>

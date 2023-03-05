@@ -23,7 +23,7 @@ import roomData from '../data/roomData.js'
 // DOM Variables
 const customerName = document.querySelector('#customerName');
 const totalSpending = document.querySelector('#totalSpending');
-const customerBookingsSection = document.querySelector('#customerBookings');
+const customerBookingsSection = document.querySelector('#bookingCards');
 const availableRoomsSection = document.querySelector('#availableRooms');
 const searchBtn = document.querySelector('#searchButton');
 const dateSelector = document.querySelector('#selectDate')
@@ -83,7 +83,7 @@ function displayDashboard() {
 
 function displayBooking(booking, room) {
   customerBookingsSection.innerHTML += `
-    <div class="past-booking-info">
+    <div class="customer-bookings">
       <p>Booking Info</p>
       <p>Room Number: ${booking.roomNumber}</p>
       <p>Room Type: ${room.roomType}</p>
@@ -94,7 +94,7 @@ function displayBooking(booking, room) {
 
 function displayAvailableRoom(room) {
   availableRoomsSection.innerHTML += `
-    <div class="past-booking-info">
+    <div class="available-rooms">
       <p>Room Info:</p>
       <p>Room Number: ${room.number}</p>
       <p>Room Type: ${room.roomType}</p>
@@ -102,6 +102,7 @@ function displayAvailableRoom(room) {
       <p>Bed Size:${room.bedSize}</p>
       <p>Number of Beds:${room.numBeds}</p>
       <p>Total Cost: ${room.costPerNight}</p>
+      <button id ="${room.number}">Book</button>
   </div>`
 }
 
