@@ -52,6 +52,10 @@ header {
 .customer-bookings-section {
   display: flex;
   flex-wrap: wrap;
+  width: 400px;
+  height: 500px;
+  background-color: white;
+  overflow: auto;
 }
 
 .customer-bookings {
@@ -66,22 +70,40 @@ header {
   background-color: #a76671;
 }
 
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
 .available-room-display {
   display: flex;
+  width: 400px;
+  height: 500px;
+  background-color: white;
+  overflow: auto;
 }
 .available-rooms {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  height: 16vh;
-  width: 16vw;
-  margin: 5px;
-  border-radius: 0.5em;
-  background-color: #3682a0;
-  flex-wrap: wrap;
-  align-content: center;
+  
 }
 
 .hidden {
   display: none;
+}
+
+
+
+
+
+
+.card {
+  width: 300px;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 0.5em;
+  background-color: #3682a0;
+}
+
+.card p {
+  margin: 3px;  
 }

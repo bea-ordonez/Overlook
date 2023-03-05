@@ -83,7 +83,7 @@ function displayDashboard() {
 
 function displayBooking(booking, room) {
   customerBookingsSection.innerHTML += `
-    <div class="customer-bookings">
+    <div class="card">
       <p>Booking Info</p>
       <p>Room Number: ${booking.roomNumber}</p>
       <p>Room Type: ${room.roomType}</p>
@@ -94,13 +94,13 @@ function displayBooking(booking, room) {
 
 function displayAvailableRoom(room) {
   availableRoomsSection.innerHTML += `
-    <div class="available-rooms">
+    <div class="card">
       <p>Room Info:</p>
       <p>Room Number: ${room.number}</p>
       <p>Room Type: ${room.roomType}</p>
-      <p>Bidet:${room.bidet}</p>
-      <p>Bed Size:${room.bedSize}</p>
-      <p>Number of Beds:${room.numBeds}</p>
+      <p>Bidet: ${room.bidet}</p>
+      <p>Bed Size: ${room.bedSize}</p>
+      <p>Number of Beds: ${room.numBeds}</p>
       <p>Total Cost: ${room.costPerNight}</p>
       <button id ="${room.number}">Book</button>
   </div>`
