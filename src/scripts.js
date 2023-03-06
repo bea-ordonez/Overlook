@@ -25,6 +25,7 @@ const dateSelector = document.querySelector('#selectDate');
 const roomTypeSelector = document.querySelector('#roomType');
 const loggedOutView = document.querySelector('#loggedOutView');
 const loggedInView = document.querySelector('#loggedInView');
+const navBar = document.querySelector('#navBar');
 
 // GLOBAL Variables
 let currentCustomer, selectedDate, roomRepo, bookingRepo;
@@ -95,14 +96,16 @@ function displayAvailableRooms(rooms) {
 
 function logIn() {
   const username = userNameBox.value;
-  console.log(username)
   const password = passWordBox.value;
   if (username === 'customer50' && password === 'overlook2021') {
     currentCustomer = allCustomers.find(customer => customer.id === 50);
-  }
-  displayDashboard();
-  hide(loggedOutView);
-  show(loggedInView);
+    show(navBar)
+    displayDashboard();
+    hide(loggedOutView);
+    show(loggedInView);
+  } else {
+    loggedOutView.innerHTML = `<p>Sorry! You have entered the wrong username or password.</p>`
+  };
 }
 
 function displayNoAvailableRoom() {
