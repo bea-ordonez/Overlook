@@ -101,7 +101,7 @@ function hide(element) {
 
 function displayBooking(booking, room) {
   customerBookingsSection.innerHTML += `
-    <div class="card">
+    <div class="card" tabindex="0">
       <p>Booking Info</p>
       <p>Room Number: ${booking.roomNumber}</p>
       <p>Room Type: ${room.roomType}</p>
@@ -112,7 +112,7 @@ function displayBooking(booking, room) {
 
 function displayAvailableRoom(room) {
   availableRoomsSection.innerHTML += `
-    <div class="card">
+    <div class="card" tabindex="0">
       <p>Room Info:</p>
       <p>Room Number: ${room.number}</p>
       <p>Room Type: ${room.roomType}</p>
@@ -128,12 +128,11 @@ function logIn() {
   const username = userNameBox.value;
   const password = passWordBox.value;
   if (username === 'customer50' && password === 'overlook2021') {
-    currentCustomer = allCustomers.find(customer => customer.id === 50)
+    currentCustomer = allCustomers.find(customer => customer.id === 50);
   }
-
   displayDashboard();
-  hide(loggedOutView)
-  show(loggedInView)
+  hide(loggedOutView);
+  show(loggedInView);
 }
 
 function displayNoAvailableRoom() {
@@ -147,7 +146,7 @@ function showAvailableRooms() {
   selectedDate = dateSelector.value.replace(/-/g,'/')
   const selectedRoomType = roomTypeSelector.value;
   //regular expression, looking for a certain pattern (/-/g) replacing - with / 
-  const availableRooms = allRooms.filter(room => isRoomAvailable(room.number, selectedDate) && (selectedRoomType === room.roomType || selectedRoomType === "all room types") );
+  const availableRooms = allRooms.filter(room => isRoomAvailable(room.number, selectedDate) && (selectedRoomType === room.roomType || selectedRoomType === "all room types"));
   availableRoomsSection.innerHTML = '';
   if (availableRooms.length === 0) {
     displayNoAvailableRoom();
