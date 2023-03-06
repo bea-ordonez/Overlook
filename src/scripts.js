@@ -9,17 +9,8 @@ import Room from './Room.js'
 import bookingData from '../data/bookingData.js'
 import cutomerData from '../data/customerData.js'
 import roomData from '../data/roomData.js'
-
-
-
-//let allRooms = []
-//api.getAllRooms().then(rooms => allRooms = rooms) //returns an array of rooms
-
-//api.getCustomerById(1).then(customer => console.log(customer)) //returns an obj of customer
-//api.getAllCustomers().then(customers => console.log(customers)) //returns array of customers
-//console.log("next line")
-
-
+import BookingRepository from './BookingRepository';
+import RoomRepository from './RoomRepository';
 
 // DOM Variables
 const customerName = document.querySelector('#customerName');
@@ -41,35 +32,28 @@ let allRooms = [];
 let allBookings = [];
 let allCustomers = [];
 
-// Event Listeners
-window.addEventListener('load', () => {
-  updateGlobalData()
-  .then(pickRandomCustomer)
-  .then(displayDashboard);
-});
+//Event Listeners
 searchBtn.addEventListener('click', showAvailableRooms);
 availableRoomsSection.addEventListener('click', makeNewBooking);
 loginBtn.addEventListener('click', logIn);
 
-// Functions 
-//returns a promise, so need to use then when in use
-function updateGlobalData() {
-  return api.getAllRooms().then(rooms => {
-    allRooms = rooms.allRooms;
-    roomRepo = rooms.allRoomsRepo;
-    return api.getAllBookings().then(bookings => {
-      allBookings = bookings.allBookings;
-      bookingRepo = bookings.allBookingsRepo;
-      return api.getAllCustomers().then(customers => {
-        allCustomers = customers
-      })
-    })
-  })
-}
+//Promise
+Promise.all([api.getAllBookings(), api.getAllCustomers(), api.getAllRooms()]).then((data) => {
+  console.log(data)
+  allBookings = data[0].bookings.map(booking => new Booking(booking));
+  bookingRepo = new BookingRepository(allBookings);
+  allCustomers = data[1].customers.map(customer => new Customer(customer));
+  const randomCustomerIndex = getRandomIndex(allCustomers)
+  currentCustomer = allCustomers[randomCustomerIndex];
+  allRooms = data[2].rooms.map(room => new Room(room));
+  roomRepo = new RoomRepository(allRooms);
+  displayDashboard();
+  showAvailableRooms();
+})
 
-function pickRandomCustomer() {
-  let randomIndex = Math.floor(Math.random() * allCustomers.length);
-  currentCustomer = allCustomers[randomIndex];
+//Functions
+function getRandomIndex(allCustomers) {
+  return Math.floor(Math.random() * allCustomers.length);
 }
 
 function displayDashboard() {
@@ -111,6 +95,7 @@ function displayAvailableRooms(rooms) {
 
 function logIn() {
   const username = userNameBox.value;
+  console.log(username)
   const password = passWordBox.value;
   if (username === 'customer50' && password === 'overlook2021') {
     currentCustomer = allCustomers.find(customer => customer.id === 50);
@@ -148,9 +133,17 @@ function makeNewBooking(event) {
         date: selectedDate,
         roomNumber: parseInt(roomNum)
       };
-      api.addNewBooking(newBooking).then(updateGlobalData).then(showAvailableRooms).then(displayDashboard);
-    };
+      api.addNewBooking(newBooking).then( () => {
+        api.getAllBookings()
+        .then((data) => {
+          allBookings = data.bookings.map(booking => new Booking(booking));
+          bookingRepo = new BookingRepository(allBookings);
+          showAvailableRooms();
+          displayDashboard();
+          });
+    });
   }
+}
 
 function displayCustomerName() {
   customerName.innerHTML = `${currentCustomer.name}`;
