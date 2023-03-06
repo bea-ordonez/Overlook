@@ -9,16 +9,8 @@ import Room from './Room.js'
 import bookingData from '../data/bookingData.js'
 import cutomerData from '../data/customerData.js'
 import roomData from '../data/roomData.js'
-
-
-//let allRooms = []
-//api.getAllRooms().then(rooms => allRooms = rooms) //returns an array of rooms
-
-//api.getCustomerById(1).then(customer => console.log(customer)) //returns an obj of customer
-//api.getAllCustomers().then(customers => console.log(customers)) //returns array of customers
-//console.log("next line")
-
-
+import BookingRepository from './BookingRepository';
+import RoomRepository from './RoomRepository';
 
 // DOM Variables
 const customerName = document.querySelector('#customerName');
@@ -34,98 +26,76 @@ const roomTypeSelector = document.querySelector('#roomType');
 const loggedOutView = document.querySelector('#loggedOutView');
 const loggedInView = document.querySelector('#loggedInView');
 
-
 // GLOBAL Variables
-let currentCustomer;
-let selectedDate;
+let currentCustomer, selectedDate, roomRepo, bookingRepo;
 let allRooms = [];
 let allBookings = [];
 let allCustomers = [];
 
-
-// Event Listeners
-
-
-window.addEventListener('load', () => {
-  updateGlobalData()
-  .then(pickRandomCustomer)
-  .then(displayDashboard);
-});
+//Event Listeners
 searchBtn.addEventListener('click', showAvailableRooms);
-
 availableRoomsSection.addEventListener('click', makeNewBooking);
+loginBtn.addEventListener('click', logIn);
 
-loginBtn.addEventListener('click', logIn)
+//Promise
+Promise.all([api.getAllBookings(), api.getAllCustomers(), api.getAllRooms()]).then((data) => {
+  console.log(data)
+  allBookings = data[0].bookings.map(booking => new Booking(booking));
+  bookingRepo = new BookingRepository(allBookings);
+  allCustomers = data[1].customers.map(customer => new Customer(customer));
+  const randomCustomerIndex = getRandomIndex(allCustomers)
+  currentCustomer = allCustomers[randomCustomerIndex];
+  allRooms = data[2].rooms.map(room => new Room(room));
+  roomRepo = new RoomRepository(allRooms);
+  displayDashboard();
+  showAvailableRooms();
+})
 
-// Functions 
-
-//returns a promise, so need to use then when in use
-function updateGlobalData() {
-  return api.getAllRooms().then(rooms => {
-    allRooms = rooms
-    return api.getAllBookings().then(bookings => {
-      allBookings = bookings
-      return api.getAllCustomers().then(customers => {
-        allCustomers = customers
-      })
-    })
-  })
-}
-
-function pickRandomCustomer() {
-  let randomIndex = Math.floor(Math.random() * allCustomers.length);
-  currentCustomer = allCustomers[randomIndex];
+//Functions
+function getRandomIndex(allCustomers) {
+  return Math.floor(Math.random() * allCustomers.length);
 }
 
 function displayDashboard() {
   displayCustomerName();
-  customerBookingsSection.innerHTML = '';
-  // draw dashboard cards for current user's bookings
-  const customerBookings = allBookings.filter(booking => booking.userID === currentCustomer.id);
-  let totalSpent = 0;
-  customerBookings.forEach(booking => {
-    const bookedRoom = allRooms.find(room => room.number === booking.roomNumber)
-    totalSpent += bookedRoom.costPerNight;
-    displayBooking(booking, bookedRoom);
-  });
+  const customerBookings = bookingRepo.getCustomerBookingsById(currentCustomer.id);
+  const totalSpent = roomRepo.calculateTotalSpent(customerBookings)
   displayCustomerSpending(totalSpent);
+  displayBooking(customerBookings);
 }
 
-function show(element) {
-  element.classList.remove('hidden');
+function displayBooking(bookings) {
+  customerBookingsSection.innerHTML = '';
+  bookings.forEach(booking => {
+    customerBookingsSection.innerHTML += `
+      <div class="card" tabindex="0">
+        <p>Booking Info</p>
+        <p>Room Number: ${booking.roomNumber}</p>
+        <p>Date: ${booking.date}</p>
+     </div>`
+  })
 }
 
-function hide(element) {
-  element.classList.add('hidden');
-}
-
-function displayBooking(booking, room) {
-  customerBookingsSection.innerHTML += `
-    <div class="card" tabindex="0">
-      <p>Booking Info</p>
-      <p>Room Number: ${booking.roomNumber}</p>
-      <p>Room Type: ${room.roomType}</p>
-      <p>Total Cost: ${room.costPerNight}</p>
-      <p>Date: ${booking.date}</p>
-   </div>`
-}
-
-function displayAvailableRoom(room) {
-  availableRoomsSection.innerHTML += `
-    <div class="card" tabindex="0">
-      <p>Room Info:</p>
-      <p>Room Number: ${room.number}</p>
-      <p>Room Type: ${room.roomType}</p>
-      <p>Bidet: ${room.bidet}</p>
-      <p>Bed Size: ${room.bedSize}</p>
-      <p>Number of Beds: ${room.numBeds}</p>
-      <p>Total Cost: ${room.costPerNight}</p>
-      <button id="book-${room.number}">Book</button>
-    </div>`
+function displayAvailableRooms(rooms) {
+  availableRoomsSection.innerHTML = '';
+  rooms.forEach(room => {
+    availableRoomsSection.innerHTML += `
+      <div class="card" tabindex="0">
+        <p>Room Info:</p>
+        <p>Room Number: ${room.number}</p>
+        <p>Room Type: ${room.roomType}</p>
+        <p>Bidet: ${room.bidet}</p>
+        <p>Bed Size: ${room.bedSize}</p>
+        <p>Number of Beds: ${room.numBeds}</p>
+        <p>Total Cost: ${room.costPerNight}</p>
+        <button id="book-${room.number}">Book</button>
+      </div>`
+  })
 }
 
 function logIn() {
   const username = userNameBox.value;
+  console.log(username)
   const password = passWordBox.value;
   if (username === 'customer50' && password === 'overlook2021') {
     currentCustomer = allCustomers.find(customer => customer.id === 50);
@@ -143,41 +113,37 @@ function displayNoAvailableRoom() {
 }
 
 function showAvailableRooms() {
-  selectedDate = dateSelector.value.replace(/-/g,'/')
+  selectedDate = dateSelector.value.replaceAll('-', '/');
   const selectedRoomType = roomTypeSelector.value;
-  //regular expression, looking for a certain pattern (/-/g) replacing - with / 
-  const availableRooms = allRooms.filter(room => isRoomAvailable(room.number, selectedDate) && (selectedRoomType === room.roomType || selectedRoomType === "all room types"));
-  availableRoomsSection.innerHTML = '';
+  const availableRooms = allRooms.filter(room => (bookingRepo.isRoomAvailable(room.number, selectedDate)) && (selectedRoomType === room.roomType || selectedRoomType === "all room types"));
   if (availableRooms.length === 0) {
     displayNoAvailableRoom();
+  } else {
+    displayAvailableRooms(availableRooms);
   }
-  availableRooms.forEach( room => {
-    displayAvailableRoom(room);
-  })
 }
-//itrate thru bookings array and filter matching date and room number 
 
 function makeNewBooking(event) {
-  if (event.target.id) { //if id is truthy
-    if (event.target.id.substring(0,5) == "book-") { //if left part of id is 'book-'
-      const roomNum = event.target.id.substring(5) //extract room number
-      
+  const targetId = event.target.id;
+  const isValidClick = targetId && targetId.includes('book');
+  if (isValidClick) {
+      const roomNum = targetId.substring(5);
       const newBooking = {
         userID: currentCustomer.id,
         date: selectedDate,
         roomNumber: parseInt(roomNum)
       };
-
-      api.addNewBooking(newBooking).then(updateGlobalData).then(showAvailableRooms).then(displayDashboard);
-    }
+      api.addNewBooking(newBooking).then( () => {
+        api.getAllBookings()
+        .then((data) => {
+          allBookings = data.bookings.map(booking => new Booking(booking));
+          bookingRepo = new BookingRepository(allBookings);
+          showAvailableRooms();
+          displayDashboard();
+          });
+    });
   }
 }
-
-function isRoomAvailable(roomNum, date) {
-  const bookingResult = allBookings.find(booking => booking.roomNumber === roomNum && booking.date === date)
-  return !bookingResult
-}
-//if booking result meets criteria return false otherwise return true
 
 function displayCustomerName() {
   customerName.innerHTML = `${currentCustomer.name}`;
@@ -185,5 +151,13 @@ function displayCustomerName() {
 
 function displayCustomerSpending(amount) {
   totalSpending.innerHTML = `$${amount}`;
+}
+
+function show(element) {
+  element.classList.remove('hidden');
+}
+
+function hide(element) {
+  element.classList.add('hidden');
 }
 
