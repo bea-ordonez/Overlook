@@ -1,14 +1,9 @@
 
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css';
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import api from './apiCalls.js'
 import Booking from './Booking.js'
 import Customer from './Customer.js'
 import Room from './Room.js'
-import bookingData from '../data/bookingData.js'
-import cutomerData from '../data/customerData.js'
-import roomData from '../data/roomData.js'
 import BookingRepository from './BookingRepository';
 import RoomRepository from './RoomRepository';
 
@@ -40,11 +35,10 @@ loginBtn.addEventListener('click', logIn);
 
 //Promise
 Promise.all([api.getAllBookings(), api.getAllCustomers(), api.getAllRooms()]).then((data) => {
-  console.log(data)
   allBookings = data[0].bookings.map(booking => new Booking(booking));
   bookingRepo = new BookingRepository(allBookings);
   allCustomers = data[1].customers.map(customer => new Customer(customer));
-  const randomCustomerIndex = getRandomIndex(allCustomers)
+  const randomCustomerIndex = getRandomIndex(allCustomers);
   currentCustomer = allCustomers[randomCustomerIndex];
   allRooms = data[2].rooms.map(room => new Room(room));
   roomRepo = new RoomRepository(allRooms);
@@ -60,7 +54,7 @@ function getRandomIndex(allCustomers) {
 function displayDashboard() {
   displayCustomerName();
   const customerBookings = bookingRepo.getCustomerBookingsById(currentCustomer.id);
-  const totalSpent = roomRepo.calculateTotalSpent(customerBookings)
+  const totalSpent = roomRepo.calculateTotalSpent(customerBookings);
   displayCustomerSpending(totalSpent);
   displayBooking(customerBookings);
 }
@@ -74,7 +68,7 @@ function displayBooking(bookings) {
         <p>Room Number: ${booking.roomNumber}</p>
         <p>Date: ${booking.date}</p>
      </div>`
-  })
+  });
 }
 
 function displayAvailableRooms(rooms) {
@@ -91,7 +85,7 @@ function displayAvailableRooms(rooms) {
         <p>Total Cost: ${room.costPerNight}</p>
         <button id="book-${room.number}">Book</button>
       </div>`
-  })
+  });
 }
 
 function logIn() {
@@ -99,7 +93,7 @@ function logIn() {
   const password = passWordBox.value;
   if (username === 'customer50' && password === 'overlook2021') {
     currentCustomer = allCustomers.find(customer => customer.id === 50);
-    show(navBar)
+    show(navBar);
     displayDashboard();
     hide(loggedOutView);
     show(loggedInView);
@@ -123,7 +117,7 @@ function showAvailableRooms() {
     displayNoAvailableRoom();
   } else {
     displayAvailableRooms(availableRooms);
-  }
+  };
 }
 
 function makeNewBooking(event) {
@@ -145,7 +139,7 @@ function makeNewBooking(event) {
           displayDashboard();
           });
     });
-  }
+  };
 }
 
 function displayCustomerName() {
