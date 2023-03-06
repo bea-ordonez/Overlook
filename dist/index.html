@@ -15,9 +15,14 @@
     </header>
   </nav>
   <main>
-    <section class="login-page">
+    <section id="loggedOutView" class="login-page">
+        <label for="uname"><p>Username:</p></label></label>
+        <input type="text" id="userName" placeholder="Enter Username">
+        <label for="psw"><p>Password:</p></label>
+        <input type="password" id="passWord" placeholder="Enter Password">
+        <button id="loginButton">Login</button>
     </section>
-    <section class="dashboard flex-row">
+    <section id="loggedInView" class="dashboard flex-row hidden">
       <aside class="calendar-search">
         <label for="selectDate"><p>Select Date:</p></label>
           <input type="date" id="selectDate" name="trip-start" value="2023-03-01" min="2022-01-01" max="2024-12-31">
@@ -32,10 +37,12 @@
         </select>
         <button id="searchButton">Search</button>
       </aside>
-      <section class="flex-column">        
+      <section class="flex-column">    
+        <h3>Your bookings:</h3>    
         <section id="bookingCards" class="card-container">
           <!-- past/upcoming bookings go here -->
         </section>
+        <h3>Available rooms:</h3>
         <section id="availableRooms" class="card-container">
           <!-- available room cards here -->
         </section> 
