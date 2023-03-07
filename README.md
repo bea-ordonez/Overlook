@@ -12,6 +12,10 @@
 - Create a robust test suite that thoroughly tests all functionality of a client-side application
 
 ## Preview of Application
+![Overlook Part1](https://media.giphy.com/media/uVSIBcgctMCij4z26t/giphy.gif)
+
+![Overlook Part1](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMWQ4YTNhOTExY2RhOTFhNjhiOGM0MjczYTY0ODY2ODllNTQzNWU2ZiZjdD1n/w3HMEpTsUpcWQpClmF/giphy.gif)
+
 
 ## Wins & Challenges
 - 
