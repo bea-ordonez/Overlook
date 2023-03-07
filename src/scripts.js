@@ -44,7 +44,7 @@ Promise.all([api.getAllBookings(), api.getAllCustomers(), api.getAllRooms()]).th
   roomRepo = new RoomRepository(allRooms);
   displayDashboard();
   showAvailableRooms();
-})
+}).catch(error => console.log('error handling', error))
 
 //Functions
 function getRandomIndex(allCustomers) {
@@ -138,7 +138,8 @@ function makeNewBooking(event) {
           showAvailableRooms();
           displayDashboard();
           });
-    });
+    })
+    .catch(error => console.log('error handling', error))
   };
 }
 
