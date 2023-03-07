@@ -138,8 +138,7 @@ function makeNewBooking(event) {
           showAvailableRooms();
           displayDashboard();
           })
-          .catch(error => { alert(`Oops! No Post: ${error}`)});
-    })
+    }).catch(error => { alert(`Oops! No Post: ${error}`)});
   };
 }
 
