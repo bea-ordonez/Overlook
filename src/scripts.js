@@ -41,10 +41,10 @@ Promise.all([api.getAllBookings(), api.getAllCustomers(), api.getAllRooms()]).th
   const randomCustomerIndex = getRandomIndex(allCustomers);
   currentCustomer = allCustomers[randomCustomerIndex];
   allRooms = data[2].rooms.map(room => new Room(room));
-  roomRepo = new RoomRepository(allRooms);
+  roomRepo = new RoomRepository(allRooms, bookingRepo);
   displayDashboard();
   showAvailableRooms();
-}).catch(error => console.log('error handling', error))
+})
 
 //Functions
 function getRandomIndex(allCustomers) {
@@ -137,9 +137,9 @@ function makeNewBooking(event) {
           bookingRepo = new BookingRepository(allBookings);
           showAvailableRooms();
           displayDashboard();
-          });
+          })
+          .catch(error => { alert(`Oops! No Post: ${error}`)});
     })
-    .catch(error => console.log('error handling', error))
   };
 }
 

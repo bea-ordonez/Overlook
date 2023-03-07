@@ -6,35 +6,24 @@ import BookingRepository from "./BookingRepository"
 
 const getCustomerById = (id) => {
     return fetch(`http://localhost:3001/api/v1/customers/${id}`)
-    .then(response => response.json())
-    // .then(json => new Customer(json))
-}
+    .then(response => response.json());
+};
 
 const getAllCustomers = () => {
     return fetch(`http://localhost:3001/api/v1/customers`)
-    .then(response => response.json())
-    // .then(json => json.customers.map(customerJson => new Customer(customerJson)))
-}
+    .then(response => response.json());
+};
 
 const getAllRooms = () => {
     return fetch(`http://localhost:3001/api/v1/rooms`)
     .then(response => response.json())
-    // .then(json => {
-    //   const allRooms = json.rooms.map(roomJson => new Room(roomJson));
-    //   const allRoomsRepo = new RoomRepository(allRooms);
-    //   return {allRooms, allRoomsRepo}
-    // })
-}
+};
 
 const getAllBookings = () => {
     return fetch(`http://localhost:3001/api/v1/bookings`)
     .then(response => response.json())
-    // .then(json => { 
-    //     const allBookings = json.bookings.map(bookingJson => new Booking(bookingJson));
-    //     const allBookingsRepo = new BookingRepository(allBookings);
-    //     return {allBookings, allBookingsRepo}
-    // })
-}
+    .catch(error => { alert(`Oops! No Fetch: ${error}`)});
+};
 
 const addNewBooking = (booking) => {
     return fetch('http://localhost:3001/api/v1/bookings', {
@@ -44,8 +33,7 @@ const addNewBooking = (booking) => {
     })
     .then(response => response.json())
     .then(json => new Booking(json.newBooking))
-    // .catch(error => console.log(`Issue at ${error}`))
-}
+};
 
 export default { 
     getCustomerById, 
