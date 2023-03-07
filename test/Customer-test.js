@@ -10,14 +10,14 @@ describe('Customer', () => {
   })
 
   it('should be an instance of customer', () => {
-    expect(customer).to.be.an.instanceOf(Customer)
+    expect(customer).to.be.an.instanceOf(Customer);
   })
 
   it('should have an id', () => {
-    expect(customer.id).to.equal(1)
+    expect(customer.id).to.equal(1);
   })
 
   it('should have a name', () => {
-    expect(customer.name).to.equal('Leatha Ullrich')
+    expect(customer.name).to.equal('Leatha Ullrich');
   })
 })

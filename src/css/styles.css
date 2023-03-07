@@ -57,11 +57,6 @@ header {
   overflow: auto;
 }
 
-
-.hidden {
-  display: none !important;
-}
-
 .flex-column {
   display: flex;
   flex-direction: column;
@@ -90,4 +85,8 @@ header {
 
 .card p {
   margin: 3px;  
+}
+
+.hidden {
+  display: none !important;
 }

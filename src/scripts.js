@@ -4,7 +4,7 @@ import api from './apiCalls.js'
 import Booking from './Booking.js'
 import Customer from './Customer.js'
 import Room from './Room.js'
-import BookingRepository from './BookingRepository';
+import BookingRepository from './BookingRepository';  
 import RoomRepository from './RoomRepository';
 
 // DOM Variables
