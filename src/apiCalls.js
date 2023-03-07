@@ -1,8 +1,4 @@
 import Booking from "./Booking"
-import Customer from "./Customer"
-import Room from "./Room"
-import RoomRepository from "./RoomRepository"
-import BookingRepository from "./BookingRepository"
 
 const getCustomerById = (id) => {
     return fetch(`http://localhost:3001/api/v1/customers/${id}`)
