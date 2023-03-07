@@ -12,8 +12,8 @@ class RoomRepository {
         return totalSpent;
     }
 
-    getAvailableRooms() {
-        this.allRooms.filter(room => isRoomAvailable(room.number, selectedDate) && (selectedRoomType === room.roomType || selectedRoomType === "all room types"));
+    getAvailableRooms(date, roomType) {
+        return this.allRooms.filter(room => isRoomAvailable(room.number, date) && (roomType === room.roomType || roomType === "all room types"));
     }
 }
 export default RoomRepository;

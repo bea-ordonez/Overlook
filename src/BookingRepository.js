@@ -1,11 +1,14 @@
+import Booking from "./Booking";
+
 class BookingRepository {
     constructor(allBookingsArray) {
       this.allBookings = allBookingsArray;
     }
 
-    getCustomerBookingsById(id) {
+    getCustomerBookingsById(id) {  
       return this.allBookings.filter(booking => booking.userID === id);
     }
+
 
     isRoomAvailable(roomNum, date) {
         const matchedBooking = this.allBookings.find(booking => booking.roomNumber === roomNum && booking.date === date);

@@ -44,6 +44,7 @@ const addNewBooking = (booking) => {
     })
     .then(response => response.json())
     .then(json => new Booking(json.newBooking))
+    // .catch(error => console.log(`Issue at ${error}`))
 }
 
 export default { 
