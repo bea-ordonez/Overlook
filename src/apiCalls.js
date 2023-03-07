@@ -17,7 +17,12 @@ const getAllRooms = () => {
 
 const getAllBookings = () => {
     return fetch(`http://localhost:3001/api/v1/bookings`)
-    .then(response => response.json())
+    .then(response => {
+        console.log(response)
+        if (!response.ok){
+          throw new Error('Issue with request: ', response.status);   
+        }
+        return response.json()})
     .catch(error => { alert(`Oops! No Fetch: ${error}`)});
 };
 
@@ -27,8 +32,12 @@ const addNewBooking = (booking) => {
         body: JSON.stringify(booking),
         headers: {'Content-Type': 'application/json'}
     })
-    .then(response => response.json())
-    .then(json => new Booking(json.newBooking))
+    .then(response => {
+        if(response.status !== 201) {
+            throw new Error('Issue with request', response.status)
+        }
+        return response.json()})
+      .then(json => new Booking(json.newBooking))
 };
 
 export default { 
