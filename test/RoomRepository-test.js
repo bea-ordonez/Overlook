@@ -25,7 +25,7 @@ describe('Room Repository', () => {
   });
 
   it('should calculate total spent on bookings', () => {
-    const customerBooking = bookingData[0]
+    const customerBooking = bookingData[0];
     expect(roomRepo.calculateTotalSpent([customerBooking, customerBooking])).to.equal(858.88);
   })
 
@@ -38,5 +38,4 @@ describe('Room Repository', () => {
     const availableRooms = roomRepo.getAvailableRooms("2022/04/22", "single room");
     expect(availableRooms.length).to.equal(1);
   })
-
 })
