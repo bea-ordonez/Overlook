@@ -1,6 +1,9 @@
+import BookingRepository from "./BookingRepository";
+
 class RoomRepository {
-    constructor(allRoomsArray) {
+    constructor(allRoomsArray, bookingRepo) {
         this.allRooms = allRoomsArray;
+        this.bookingRepo = bookingRepo;
     }
 
     calculateTotalSpent(bookings) {
@@ -13,7 +16,7 @@ class RoomRepository {
     }
 
     getAvailableRooms(date, roomType) {
-        return this.allRooms.filter(room => isRoomAvailable(room.number, date) && (roomType === room.roomType || roomType === "all room types"));
+        return this.allRooms.filter(room => this.bookingRepo.isRoomAvailable(room.number, date) && (roomType === room.roomType || roomType === "all room types"));
     }
 }
 export default RoomRepository;

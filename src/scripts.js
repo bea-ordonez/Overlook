@@ -41,7 +41,7 @@ Promise.all([api.getAllBookings(), api.getAllCustomers(), api.getAllRooms()]).th
   const randomCustomerIndex = getRandomIndex(allCustomers);
   currentCustomer = allCustomers[randomCustomerIndex];
   allRooms = data[2].rooms.map(room => new Room(room));
-  roomRepo = new RoomRepository(allRooms);
+  roomRepo = new RoomRepository(allRooms, bookingRepo);
   displayDashboard();
   showAvailableRooms();
 })
